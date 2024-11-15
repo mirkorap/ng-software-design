@@ -1,55 +1,13 @@
-@if (errorMessage()) {
-<app-alert type="error" [message]="errorMessage()" (close)="onClose()" />
+@if (loginForm.errorMessage()) {
+  <app-alert
+    type="error"
+    [message]="loginForm.errorMessage()"
+    (close)="onClose()"
+  />
 }
 
 <div class="flex items-center justify-center min-h-screen bg-gray-100">
   <div class="w-full max-w-sm">
-    <form
-      class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
-      [formGroup]="form"
-      (ngSubmit)="onSubmit()"
-    >
-      <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2">
-          Username
-        </label>
-
-        <input
-          type="text"
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          placeholder="Username"
-          formControlName="username"
-        />
-      </div>
-
-      <div class="mb-6">
-        <label class="block text-gray-700 text-sm font-bold mb-2">
-          Password
-        </label>
-
-        <input
-          type="password"
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-          placeholder="********"
-          formControlName="password"
-        />
-      </div>
-
-      <div class="flex items-center justify-between">
-        <button
-          type="submit"
-          class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
-          Sign In
-        </button>
-
-        <a
-          href="#"
-          class="inline-block align-baseline font-bold text-sm text-orange-500 hover:text-orange-800"
-        >
-          Forgot Password?
-        </a>
-      </div>
-    </form>
+    <app-login-form (login)="onLogin($event)" />
   </div>
 </div>

@@ -1,46 +1,35 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  signal,
-} from '@angular/core';
-import {
-  NonNullableFormBuilder,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { AlertComponent } from 'ui-kit';
+
+import { LoginFormFactory } from '../../factories/login-form.factory';
+import { LoginForm } from '../../forms/login.form';
+import { Credentials } from '../../models/auth.model';
+import { LoginFormComponent } from '../../components/login-form/login-form.component';
 
 @Component({
   selector: 'app-login-page',
+  templateUrl: './login-page.component.html',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './login-page.component.html',
-  imports: [ReactiveFormsModule, AlertComponent],
+  imports: [ReactiveFormsModule, AlertComponent, LoginFormComponent],
+  providers: [
+    LoginFormFactory,
+    {
+      provide: LoginForm,
+      useFactory: (factory: LoginFormFactory): LoginForm => factory.create(),
+      deps: [LoginFormFactory],
+    },
+  ],
 })
 export class LoginPageComponent {
-  private fb = inject(NonNullableFormBuilder);
+  loginForm = inject(LoginForm);
 
-  errorMessage = signal('');
-
-  form = this.fb.group({
-    username: this.fb.control('', [Validators.required, Validators.email]),
-    password: this.fb.control('', [Validators.required]),
-  });
-
-  onSubmit(): void {
-    if (this.form.invalid) {
-      this.errorMessage.set('Please enter your username and password.');
-      this.form.markAllAsTouched();
-
-      return;
-    }
-
-    this.errorMessage.set('');
-    console.log(this.form.value);
+  onLogin(credentials: Credentials): void {
+    console.log(credentials);
   }
 
   onClose(): void {
-    this.errorMessage.set('');
+    this.loginForm.errorMessage.set('');
   }
 }
