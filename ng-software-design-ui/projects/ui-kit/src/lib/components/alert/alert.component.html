@@ -1,0 +1,4 @@
+<div class="alert" [ngClass]="getClass()">
+  <span class="alert-close-btn" (click)="onClick()">&times;</span>
+  <strong>{{ type() | titlecase }}!</strong> {{ translatedMessage() }}
+</div>
