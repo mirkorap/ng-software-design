@@ -2,11 +2,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  inject,
   input,
   output,
 } from '@angular/core';
-import { AlertType } from '../../models/alert.model';
 import { NgClass, TitleCasePipe } from '@angular/common';
+
+import { AlertType } from '../../models/alert.model';
+import { I18nService } from '../../services/i18n.service';
 
 @Component({
   selector: 'app-alert',
@@ -17,6 +20,8 @@ import { NgClass, TitleCasePipe } from '@angular/common';
   styleUrl: './alert.component.css',
 })
 export class AlertComponent {
+  private i18nService = inject(I18nService);
+
   type = input<AlertType>('info');
   message = input<string>();
   close = output<void>();
@@ -27,7 +32,7 @@ export class AlertComponent {
     }
 
     // Default
-    return 'This is an example of alert';
+    return this.i18nService.translate('ui.alert.message');
   });
 
   getClass(): string {

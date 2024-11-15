@@ -1,5 +1,9 @@
-import { EnvironmentProviders, makeEnvironmentProviders } from '@angular/core';
+import { EnvironmentProviders, makeEnvironmentProviders, Provider } from '@angular/core';
 
-export function provideUi(): EnvironmentProviders {
-  return makeEnvironmentProviders([]);
+export interface UiKitConfig {
+  translator: Provider;
+}
+
+export function provideUi(config: UiKitConfig): EnvironmentProviders {
+  return makeEnvironmentProviders([config.translator]);
 }
