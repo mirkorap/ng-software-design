@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { I18nService } from 'core';
+import { I18nService, ValueConverter } from 'core';
 
 @Component({
   selector: 'app-root',
@@ -9,8 +9,15 @@ import { I18nService } from 'core';
   imports: [RouterOutlet],
 })
 export class AppComponent {
-  constructor(i18nService: I18nService) {
-    i18nService.setDefaultLang('en');
-    i18nService.setActiveLang('en');
+  private i18nService = inject(I18nService);
+  private converter = inject(ValueConverter);
+
+  constructor() {
+    this.i18nService.setDefaultLang('en');
+    this.i18nService.setActiveLang('en');
+
+    // Formats
+    const valueAsText = this.converter.toText(38.0769444, "&#d ##h");
+    console.log(valueAsText);
   }
 }
