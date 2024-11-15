@@ -7,6 +7,8 @@ import {
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
+import * as fromServices from './services';
+
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -23,5 +25,9 @@ export function provideCore(): EnvironmentProviders {
         },
       })
     ),
+    {
+      provide: fromServices.I18nService,
+      useClass: fromServices.NgxI18nService
+    }
   ]);
 }
